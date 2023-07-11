@@ -1,0 +1,48 @@
+@tailwind base;
+
+@layer base {
+  h1 {
+    @apply text-6xl font-bold;
+  }
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  progress[value] {
+    width: 100%;
+    height: 15px;
+  }
+  progress::-webkit-progress-bar {
+    background-color: rgb(231, 231, 231);
+  }
+  progress::-webkit-progress-value {
+    background-color: #22d3ee;
+  }
+  table {
+    border-spacing: 0 8px;
+  }
+  td {
+    padding-top: 8px;
+  }
+}
+
+@tailwind components;
+@layer components {
+  .btn-dark {
+    @apply flex bg-black text-white max-w-[160px] py-2 px-3 rounded justify-between items-center;
+  }
+  .btn {
+    @apply flex min-w-[160px] py-2 px-3 rounded justify-between items-center;
+  }
+
+  .btn-delete {
+    @apply flex text-red-600 border border-red-600 max-w-[160px] py-2 px-3 rounded-lg justify-between items-center hover:bg-red-100 duration-150;
+  }
+  .accent {
+    @apply text-cyan-500;
+  }
+}
+
+@tailwind utilities;

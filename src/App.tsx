@@ -41,13 +41,13 @@ const router = createBrowserRouter([
       {
         path: "budget/:id",
         element: <BudgetPage />,
-        loader: budgetLoader,
+        loader: () => budgetLoader,
         action: BudgetAction,
         errorElement: <Error />,
         children: [
           {
             path: "delete",
-            action: deleteBudget,
+            action: () => deleteBudget,
           },
         ],
       },

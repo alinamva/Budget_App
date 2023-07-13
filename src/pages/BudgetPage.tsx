@@ -3,8 +3,9 @@ import { useLoaderData } from "react-router-dom";
 //library imports
 import { toast } from "react-toastify";
 //components
+import { deleteBudgetProps } from "../actions/deleteBudget";
 import AddExpenseForm from "../components/AddExpenseForm";
-import BudgetItem from "../components/BudgetItem";
+import BudgetItem, { Budget } from "../components/BudgetItem";
 import Table from "../components/Table";
 // helper functions
 import {
@@ -12,9 +13,14 @@ import {
   deleteItem,
   getAllMAtchingItems,
 } from "../components/Helpers";
+import { Expense } from "../components/ExpenseItem";
 
+export interface IBudgetPageProps {
+  budget: Budget;
+  expenses: Expense;
+}
 //loader
-export async function budgetLoader({ params }) {
+export async function budgetLoader({ params }: deleteBudgetProps) {
   const budget = await getAllMAtchingItems({
     category: "budgets",
     key: "id",
@@ -40,8 +46,8 @@ export async function BudgetAction({ request }: { request: Request }) {
     try {
       createExpense({
         name: values.newExpense,
-        amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget,
+        amount: Number(values.newExpenseAmount),
+        budgetId: Number(values.newExpenseBudget),
       });
       return toast.success(`Expense ${values.newExpense} created!`);
     } catch (e) {
@@ -63,7 +69,10 @@ export async function BudgetAction({ request }: { request: Request }) {
 }
 
 const BudgetPage = () => {
-  const { budget, expenses } = useLoaderData();
+  const { budget, expenses } = useLoaderData() as {
+    budget: Budget;
+    expenses: Expense[];
+  };
   return (
     <div className="flex flex-col gap-8">
       <h2>

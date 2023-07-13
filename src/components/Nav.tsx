@@ -2,11 +2,11 @@
 import { Form, NavLink } from "react-router-dom";
 //asset imports
 import logomark from "../assets/logomark.svg";
-import { IDashboard } from "../pages/Dashboard";
+import { IMain } from "../layouts/Main";
 //library imports
 import { TrashIcon } from "@heroicons/react/24/solid";
 interface INav {
-  userName: IDashboard;
+  userName: IMain;
 }
 
 const Nav: React.FC<INav> = ({ userName }) => {

@@ -14,9 +14,10 @@ export interface Budget {
   id: string;
   name: string;
   amount: number;
+  createdAt: number;
 }
 
-interface BudgetItemProps {
+export interface BudgetItemProps {
   budget: Budget;
   showDelete?: boolean;
 }

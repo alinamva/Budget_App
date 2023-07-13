@@ -1,40 +1,40 @@
+import { Expense } from "./ExpenseItem";
+interface Helpers {
+  key: string;
+  category: string;
+  value: number;
+}
 // local storage
-export const fetchData = (key) => {
-  return JSON.parse(localStorage.getItem(key));
+export const fetchData = (key: string): any => {
+  const item = localStorage.getItem(key);
+  return item !== null ? JSON.parse(item) : null;
 };
 
 // Get all items from local storage
-export const getAllMAtchingItems = ({ category, key, value }) => {
+export const getAllMAtchingItems = ({ category, key, value }: Helpers) => {
   const data = fetchData(category) ?? [];
-  return data.filter((item) => item[key] === value);
+  return data.filter((item: any) => item[key] === value);
 };
 
 export const waait = () =>
   new Promise((res) => setTimeout(res, Math.random() * 2000));
 
-//colors
-const generateRandomColor = () => {
-  const existingBudgetLength = fetchData("budgets")?.lenght ?? 0;
-  return `${existingBudgetLength * 34} 65% 50%`;
-};
-
 // delete item from local storage
-export const deleteItem = ({ key, id }) => {
+export const deleteItem = ({ key, id }: { key: string; id?: any }) => {
   const existingData = fetchData(key);
   if (id) {
-    const newData = existingData.filter((item) => item.id !== id);
+    const newData = existingData.filter((item: any) => item.id !== id);
     return localStorage.setItem(key, JSON.stringify(newData));
   }
   return localStorage.removeItem(key);
 };
 // create budget
-export const createBudget = ({ name, amount }) => {
+export const createBudget = ({ name, amount }: Expense) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
     createdAt: Date.now(),
     amount: +amount,
-    color: generateRandomColor(),
   };
   const existingBudgets = fetchData("budgets") ?? [];
   return localStorage.setItem(
@@ -43,12 +43,12 @@ export const createBudget = ({ name, amount }) => {
   );
 };
 //create expense
-export const createExpense = ({ name, amount, budgetId }) => {
+export const createExpense = ({ name, amount, budgetId }: Expense) => {
   const newItem = {
     id: crypto.randomUUID(),
-    name: name,
+    name: name as string,
     createdAt: Date.now(),
-    amount: +amount,
+    amount: amount,
     budgetId: budgetId,
   };
   const existingExpenses = fetchData("expenses") ?? [];
@@ -59,9 +59,9 @@ export const createExpense = ({ name, amount, budgetId }) => {
 };
 
 //total spent by budget
-export const calculateSpentByBudget = (budgetId) => {
+export const calculateSpentByBudget = ({ budgetId }: Expense) => {
   const expenses = fetchData("expenses") ?? [];
-  const budgetSpent = expenses.reduce((acc, expense) => {
+  const budgetSpent = expenses.reduce((acc: number, expense: Expense) => {
     //check if expense.id === budgetId
     if (expense.budgetId === budgetId) return acc;
 
@@ -71,19 +71,19 @@ export const calculateSpentByBudget = (budgetId) => {
   return budgetSpent;
 };
 //FORMATTING
-export const formatDateToLocaleString = (epoch) => {
+export const formatDateToLocaleString = (epoch: number) => {
   return new Date(epoch).toLocaleDateString();
 };
 
 //formatting percentage
-export const formatPercentage = (amt) => {
+export const formatPercentage = (amt: number) => {
   return amt.toLocaleString(undefined, {
     style: "percent",
     minimumFractionDigits: 0,
   });
 };
 //Format currency
-export const formatCurrency = (amt) => {
+export const formatCurrency = (amt: number) => {
   return amt.toLocaleString(undefined, {
     style: "currency",
     currency: "USD",

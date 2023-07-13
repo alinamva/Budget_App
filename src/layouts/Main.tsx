@@ -7,16 +7,16 @@ import { fetchData } from "../components/Helpers";
 //component imports
 import Nav from "../components/Nav";
 
-interface IDashboard {
+export interface IMain {
   userName: string;
 }
-export function mainLoader(): IDashboard {
-  const userName: string = fetchData("userName");
+export function mainLoader(): IMain {
+  const userName = fetchData("userName");
   return { userName };
 }
 
 const Main = () => {
-  const dashboardData: IDashboard = mainLoader();
+  const dashboardData = mainLoader();
   return (
     <div className="min-h-screen flex flex-col justify-between gap-10">
       <Nav userName={dashboardData} />

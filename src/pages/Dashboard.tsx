@@ -47,7 +47,7 @@ export async function dashboardAction({ request }: { request: Request }) {
     try {
       createBudget({
         name: values.newBudget,
-        amount: values.newBudgetAmount,
+        amount: Number(values.newBudgetAmount),
       });
       return toast.success("Budget created!");
     } catch (e) {
@@ -58,8 +58,8 @@ export async function dashboardAction({ request }: { request: Request }) {
     try {
       createExpense({
         name: values.newExpense,
-        amount: values.newExpenseAmount,
-        budgetId: values.newExpenseBudget,
+        amount: Number(values.newExpenseAmount),
+        budgetId: Number(values.newExpenseBudget),
       });
       return toast.success(`Expense ${values.newExpense} created!`);
     } catch (e) {

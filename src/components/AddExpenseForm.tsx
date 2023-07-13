@@ -4,18 +4,23 @@ import { useEffect, useRef } from "react";
 import { useFetcher } from "react-router-dom";
 //library imports
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+//component imports
+import { Budget } from "./BudgetItem";
 
-const AddExpenseForm = ({ budgets }) => {
+export interface AddExpenseForm {
+  budgets: Budget[];
+}
+const AddExpenseForm = ({ budgets }: AddExpenseForm) => {
   const fetcher = useFetcher();
-  const formRef = useRef();
-  const focusRef = useRef();
+  const formRef = useRef<HTMLFormElement>(null);
+  const focusRef = useRef(null);
   const isSubmitting = fetcher.state === "submitting";
   useEffect(() => {
     if (!isSubmitting) {
       //clear form
-      formRef.current.reset();
+      formRef.current?.reset();
       //reset focus
-      formRef.current.focus();
+      formRef.current?.focus();
     }
   });
   return (

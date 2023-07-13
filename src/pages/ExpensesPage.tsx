@@ -9,12 +9,12 @@ import Table from "../components/Table";
 import { Expense } from "../components/ExpenseItem";
 //loader
 
-interface ExpensesPage {
+export interface ExpensesPage {
   expenses: Expense[];
 }
 
 export function expensesLoader() {
-  const expenses: Expense[] = fetchData("expenses") as Expense[];
+  const expenses = fetchData("expenses") as Expense[];
 
   return { expenses };
 }
@@ -36,7 +36,7 @@ export async function ExpensesAction({ request }: { request: Request }) {
 }
 
 const ExpensesPage = () => {
-  const { expenses }: ExpensesPage = useLoaderData();
+  const { expenses } = useLoaderData() as ExpensesPage;
 
   return (
     <div>

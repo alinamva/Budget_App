@@ -39,7 +39,7 @@ const ExpensesPage = () => {
   const { expenses } = useLoaderData() as ExpensesPage;
 
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <h1>All Expenses</h1>
       {expenses && expenses.length > 0 ? (
         <div>

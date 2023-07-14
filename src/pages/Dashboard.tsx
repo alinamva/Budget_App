@@ -46,7 +46,7 @@ export async function dashboardAction({ request }: { request: Request }) {
   if (_action === "createBudget") {
     try {
       createBudget({
-        name: values.newBudget,
+        name: values?.newBudget as string,
         amount: Number(values.newBudgetAmount),
       });
       return toast.success("Budget created!");
@@ -57,9 +57,9 @@ export async function dashboardAction({ request }: { request: Request }) {
   if (_action === "createExpense") {
     try {
       createExpense({
-        name: values.newExpense,
+        name: values?.newExpense as string,
         amount: Number(values.newExpenseAmount),
-        budgetId: Number(values.newExpenseBudget),
+        budgetId: values?.newExpenseBudget as string,
       });
       return toast.success(`Expense ${values.newExpense} created!`);
     } catch (e) {
@@ -84,17 +84,19 @@ const Dashboard = () => {
   return (
     <div>
       {userName ? (
-        <div>
+        <div className="flex flex-col gap-3">
           <h1>
             Welcome back, <span className="text-cyan-400">{userName}</span>
           </h1>
 
           {budgets && budgets.length > 0 ? (
             <div className="flex flex-col gap-5">
-              <AddBudgetForms />
-              <AddExpenseForm budgets={budgets} />
+              <div className="flex flex-wrap ">
+                <AddBudgetForms />
+                <AddExpenseForm budgets={budgets} />
+              </div>
               <h2 className="text-red">Existing Budgets</h2>
-              <div className="flex gap-5 flex-wrap">
+              <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
                 {budgets.map((budget) => (
                   <BudgetItem key={budget.id} budget={budget} />
                 ))}
@@ -116,9 +118,11 @@ const Dashboard = () => {
               )}
             </div>
           ) : (
-            <div>
-              <p>Personal budgeting is the secret to financial freedom.</p>
-              <p>Create a budget to get started!</p>
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2">
+                <p>Personal budgeting is the secret to financial freedom.</p>
+                <p>Create a budget to get started!</p>
+              </div>
               <AddBudgetForms />
             </div>
           )}

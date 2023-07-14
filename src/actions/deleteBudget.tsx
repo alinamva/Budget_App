@@ -1,5 +1,5 @@
 //rrd imports
-import { redirect } from "react-router-dom";
+import { Params, redirect } from "react-router-dom";
 //library imports
 import { toast } from "react-toastify";
 import { Expense } from "../components/ExpenseItem";
@@ -11,21 +11,21 @@ export interface IDeleteBudget {
 }
 
 export interface deleteBudgetProps {
-  params: IDeleteBudget;
-  expense: Expense[];
+  params?: Params<string>;
+  expense?: Expense[];
 }
 
 export default function deleteBudget({ params }: deleteBudgetProps) {
   try {
     deleteItem({
       key: "budgets",
-      id: params.id,
+      id: params?.id,
     });
 
     const assosiatedExpenses: Expense[] = getAllMAtchingItems({
       category: "expenses",
       key: "budgetId",
-      value: params.id,
+      value: params?.id as string,
     });
     assosiatedExpenses.forEach((expense) => {
       deleteItem({

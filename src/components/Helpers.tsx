@@ -2,7 +2,7 @@ import { Expense } from "./ExpenseItem";
 interface Helpers {
   key: string;
   category: string;
-  value: number;
+  value: string;
 }
 // local storage
 export const fetchData = (key: string): any => {
@@ -29,7 +29,10 @@ export const deleteItem = ({ key, id }: { key: string; id?: any }) => {
   return localStorage.removeItem(key);
 };
 // create budget
-export const createBudget = ({ name, amount }: Expense) => {
+export const createBudget = ({
+  name,
+  amount,
+}: Pick<Expense, "name" | "amount">) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name,
@@ -43,7 +46,11 @@ export const createBudget = ({ name, amount }: Expense) => {
   );
 };
 //create expense
-export const createExpense = ({ name, amount, budgetId }: Expense) => {
+export const createExpense = ({
+  name,
+  amount,
+  budgetId,
+}: Omit<Expense, "id" | "createdAt">) => {
   const newItem = {
     id: crypto.randomUUID(),
     name: name as string,
@@ -59,15 +66,21 @@ export const createExpense = ({ name, amount, budgetId }: Expense) => {
 };
 
 //total spent by budget
-export const calculateSpentByBudget = ({ budgetId }: Expense) => {
+export const calculateSpentByBudget = ({
+  budgetId,
+}: Pick<Expense, "budgetId">) => {
   const expenses = fetchData("expenses") ?? [];
-  const budgetSpent = expenses.reduce((acc: number, expense: Expense) => {
-    //check if expense.id === budgetId
-    if (expense.budgetId === budgetId) return acc;
 
-    // add the current amount to my total
-    return (acc += expense.amount);
-  }, 0);
+  const filteredExpenses = expenses.filter(
+    ({ budgetId: expensesBudgetId }: { budgetId: string }) =>
+      expensesBudgetId === budgetId
+  );
+
+  const budgetSpent = filteredExpenses.reduce(
+    (acc: number, expense: Expense) => (acc += expense.amount),
+    0
+  );
+
   return budgetSpent;
 };
 //FORMATTING

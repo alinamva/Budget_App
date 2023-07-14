@@ -14,7 +14,7 @@ export interface Expense {
   name: string;
   amount: number;
   createdAt: number;
-  budgetId: number;
+  budgetId: string;
 }
 export interface ExpenseItemProps {
   expense: Expense;
@@ -27,7 +27,7 @@ const ExpenseItem = ({ expense, showBudget }: ExpenseItemProps) => {
   const budget = getAllMAtchingItems({
     category: "budgets",
     key: "id",
-    value: expense.budgetId,
+    value: expense?.budgetId,
   })[0];
   return (
     <>
@@ -36,8 +36,8 @@ const ExpenseItem = ({ expense, showBudget }: ExpenseItemProps) => {
       <td>{formatDateToLocaleString(expense.createdAt)}</td>
       {showBudget && (
         <td>
-          <Link className="btn bg-slate-400" to={`/budget/${budget.id}`}>
-            {budget.name}
+          <Link className="btn bg-slate-200 w-9" to={`/budget/${budget.id}`}>
+            {budget?.name}
           </Link>
         </td>
       )}
@@ -48,7 +48,7 @@ const ExpenseItem = ({ expense, showBudget }: ExpenseItemProps) => {
           <button
             className="btn-delete"
             type="submit"
-            aria-label={`Delete ${expense.name} expense`}
+            aria-label={`Delete ${expense?.name} expense`}
           >
             <TrashIcon width={20} />
           </button>

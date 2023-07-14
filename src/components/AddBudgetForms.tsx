@@ -16,8 +16,8 @@ const AddBudgetForms = () => {
     }
   }, [isSubmitting]);
   return (
-    <div className="rounded-2xl shadow-lg w-2/4 p-4">
-      <div className="flex flex-col border border-dotted border-black w-full rounded-2xl p-5 gap-3">
+    <div className="rounded-2xl shadow-lg w-full md:w-2/4 p-4 ">
+      <div className="flex flex-col border border-dotted border-black w-full min-h-[384px] rounded-2xl p-5 gap-3">
         <h2>Create Budget</h2>
         <fetcher.Form
           method="post"
@@ -36,7 +36,7 @@ const AddBudgetForms = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="newBudgetAmount">Budget Name</label>
+            <label htmlFor="newBudgetAmount">Budget Amount</label>
             <input
               className="border border-black focus:outline-cyan-400 rounded p-2"
               type="number"

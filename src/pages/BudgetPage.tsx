@@ -1,9 +1,8 @@
 //rrd imports
-import { useLoaderData } from "react-router-dom";
+import { Params, useLoaderData } from "react-router-dom";
 //library imports
 import { toast } from "react-toastify";
 //components
-import { deleteBudgetProps } from "../actions/deleteBudget";
 import AddExpenseForm from "../components/AddExpenseForm";
 import BudgetItem, { Budget } from "../components/BudgetItem";
 import Table from "../components/Table";
@@ -20,16 +19,17 @@ export interface IBudgetPageProps {
   expenses: Expense;
 }
 //loader
-export async function budgetLoader({ params }: deleteBudgetProps) {
+export async function budgetLoader({ params }: { params: Params<string> }) {
   const budget = await getAllMAtchingItems({
     category: "budgets",
     key: "id",
-    value: params.id,
+    value: params?.id as string,
   })[0];
+
   const expenses = await getAllMAtchingItems({
     category: "expenses",
     key: "budgetId",
-    value: params.id,
+    value: params?.id as string,
   });
 
   if (!budget) {
@@ -45,11 +45,11 @@ export async function BudgetAction({ request }: { request: Request }) {
   if (_action === "createExpense") {
     try {
       createExpense({
-        name: values.newExpense,
-        amount: Number(values.newExpenseAmount),
-        budgetId: Number(values.newExpenseBudget),
+        name: values?.newExpense as string,
+        amount: Number(values?.newExpenseAmount),
+        budgetId: values.newExpenseBudget as string,
       });
-      return toast.success(`Expense ${values.newExpense} created!`);
+      return toast.success(`Expense ${values?.newExpense} created!`);
     } catch (e) {
       throw new Error("There was a problem creating your expense.");
     }
@@ -73,10 +73,11 @@ const BudgetPage = () => {
     budget: Budget;
     expenses: Expense[];
   };
+
   return (
     <div className="flex flex-col gap-8">
       <h2>
-        <span className="accent">{budget.name} </span>Overview
+        <span className="accent">{budget?.name} </span>Overview
       </h2>
       <div>
         <BudgetItem budget={budget} showDelete={true} />
@@ -85,7 +86,7 @@ const BudgetPage = () => {
       {expenses && expenses.length > 0 && (
         <div>
           <h2>
-            <span className="accent">{budget.name} </span>Expenses
+            <span className="accent">{budget?.name} </span>Expenses
           </h2>
           <Table expenses={expenses} showBudget={false} />
         </div>

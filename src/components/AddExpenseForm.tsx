@@ -24,12 +24,12 @@ const AddExpenseForm = ({ budgets }: AddExpenseForm) => {
     }
   });
   return (
-    <div className="rounded-2xl shadow-lg w-2/4 p-4">
+    <div className="rounded-2xl shadow-lg w-full md:w-2/4 p-4">
       <div className="flex flex-col border border-dotted border-black w-full rounded-2xl p-5 gap-3">
         <h2>
           Add new{" "}
           <span className="text-cyan-400">
-            {budgets.length === 1 && `${budgets.map((budg) => budg.name)}`}
+            {budgets.length === 1 && `${budgets.map((budg) => budg?.name)}`}
           </span>{" "}
           Expense
         </h2>
@@ -58,6 +58,7 @@ const AddExpenseForm = ({ budgets }: AddExpenseForm) => {
               type="number"
               step="0.01"
               inputMode="decimal"
+              id="newExpenseAmount"
               name="newExpenseAmount"
               placeholder="e.g., 3.5"
               required
@@ -72,11 +73,11 @@ const AddExpenseForm = ({ budgets }: AddExpenseForm) => {
               required
             >
               {budgets
-                .sort((a, b) => a.createdAt - b.createdAt)
-                .map((budget) => {
+                ?.sort((a, b) => a.createdAt - b.createdAt)
+                ?.map((budget) => {
                   return (
-                    <option key={budget.id} value={budget.id}>
-                      {budget.name}
+                    <option key={budget?.id} value={budget?.id}>
+                      {budget?.name}
                     </option>
                   );
                 })}

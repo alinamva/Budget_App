@@ -20,6 +20,7 @@ import deleteBudget from "./actions/deleteBudget";
 const router = createBrowserRouter([
   {
     path: "/",
+
     element: <Main />,
     loader: mainLoader,
     errorElement: <Error />,
@@ -41,13 +42,13 @@ const router = createBrowserRouter([
       {
         path: "budget/:id",
         element: <BudgetPage />,
-        loader: () => budgetLoader,
+        loader: async ({ params }) => await budgetLoader({ params }),
         action: BudgetAction,
         errorElement: <Error />,
         children: [
           {
             path: "delete",
-            action: () => deleteBudget,
+            action: ({ params }) => deleteBudget({ params }),
           },
         ],
       },

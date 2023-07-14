@@ -8,7 +8,7 @@ import { fetchData } from "../components/Helpers";
 import Nav from "../components/Nav";
 
 export interface IMain {
-  userName: string;
+  userName?: string;
 }
 export function mainLoader(): IMain {
   const userName = fetchData("userName");
@@ -16,12 +16,12 @@ export function mainLoader(): IMain {
 }
 
 const Main = () => {
-  const dashboardData = mainLoader();
+  const { userName } = mainLoader();
   return (
     <div className="min-h-screen flex flex-col justify-between gap-10">
-      <Nav userName={dashboardData} />
+      <Nav userName={userName} />
 
-      <main className="px-12">
+      <main className="lg:px-12 px-8">
         <Outlet />
       </main>
       <div>
